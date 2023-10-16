@@ -51,9 +51,9 @@ paste(nControl)
 
 time.sleep(1.2)
 pyautogui.press("enter")  # Pesquisa o doc
-time.sleep(4.00)  # Espera carregar
+time.sleep(5.50)  # Espera carregar
 pyautogui.click(x=1020, y=410, clicks=2)  # Clica no doc
-time.sleep(8.60)  # Espera carregar
+time.sleep(11.60)  # Espera carregar
 
 
 pyautogui.hotkey('alt', 'tab', interval=0.1)  # Volta para o Google
@@ -96,10 +96,13 @@ pyautogui.hotkey('alt', 'tab', interval=0.1)  # Volta para o SEsuite
 time.sleep(1.0)
 pyautogui.click(x=750, y=340, clicks=3)  # Clica na aba de Titulo
 paste(cTitle)  # Cola o Titulo
+time.sleep(0.5)
 
 
 # Atributos
 pyautogui.click(x=170, y=375, clicks=1)  # Clica em Atributos
+time.sleep(0.5)
+
 pyautogui.hotkey('alt', 'tab', interval=0.1)  # Volta para o PDF
 
 time.sleep(1.0)
@@ -152,3 +155,34 @@ paste(linha)
 time.sleep(0.2)
 
 pyautogui.press("tab")
+
+
+# trecho/Subtrecho
+
+pyautogui.hotkey('alt', 'tab', interval=0.1)  # Volta para o PDF
+
+
+
+pyautogui.click(x=795, y=530, clicks=3)
+
+copy()
+trecho = pyperclip.paste()
+
+
+pyautogui.click(x=940, y=530, clicks=3)
+
+copy()
+subTrecho = pyperclip.paste()  # Manda a linha do doc para a variável subtrecho
+
+trechoSubtrecho = trecho + subTrecho
+
+
+pyautogui.hotkey('alt', 'tab', interval=0.1)  # Volta para o Sesuite
+
+
+pyautogui.click(x=1050, y=520, clicks=3)
+
+paste(trechoSubtrecho)
+
+time.sleep(0.2)
+pyautogui.press("enter")

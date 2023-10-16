@@ -63,7 +63,7 @@ pyautogui.click(x=200, y=315, clicks=1)
 
 
 #PDF principal e alternar entre as informações
-pyautogui.click(x=590, y=400, clicks=3)
+pyautogui.click(x=990, y=390, clicks=3)
 copy()
 time.sleep(1.0)
 pyautogui.hotkey('alt', 'tab', interval=0.1)
@@ -76,7 +76,7 @@ time.sleep(1.0)
 pyautogui.hotkey('alt', 'tab', interval=0.1)
 
 
-pyautogui.click(x=590, y=420, clicks=3)
+pyautogui.click(x=990, y=420, clicks=3)
 copy()
 time.sleep(1.0)
 pyautogui.hotkey('alt', 'tab', interval=0.1)
@@ -91,7 +91,7 @@ pyautogui.hotkey('alt', 'tab', interval=0.1)
 time.sleep(1.0)
 
 #Sistema/Subsitema
-pyautogui.click(x=685, y=475, clicks=2)
+pyautogui.click(x=950, y=475, clicks=2)
 copy()
 pyautogui.hotkey('alt', 'tab', interval=0.1)
 pyautogui.click(x=685, y=525, clicks=3)
@@ -99,7 +99,7 @@ paste()
 
 time.sleep(1.0)
 pyautogui.hotkey('alt', 'tab', interval=0.1)
-pyautogui.click(x=850, y=520, clicks=3)
+pyautogui.click(x=1115, y=525, clicks=3)
 copy()
 pyautogui.hotkey('alt', 'tab', interval=0.1)
 time.sleep(1.0)
