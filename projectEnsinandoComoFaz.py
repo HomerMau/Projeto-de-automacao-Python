@@ -168,6 +168,8 @@ pyautogui.click(x=795, y=530, clicks=3)
 copy()
 trecho = pyperclip.paste()
 
+time.sleep(0.2)
+
 
 pyautogui.click(x=940, y=530, clicks=3)
 
@@ -177,12 +179,94 @@ subTrecho = pyperclip.paste()  # Manda a linha do doc para a variável subtrecho
 trechoSubtrecho = trecho + subTrecho
 
 
+# Variáveis gerais
+
+
+pyautogui.click(x=795, y=495, clicks=3)
+
+copy()
+tipo = pyperclip.paste()  # Manda a linha do doc para a variável tipo do doc
+time.sleep(0.2)
+
+
+pyautogui.click(x=795, y=570, clicks=3)
+
+copy()
+etapa = pyperclip.paste()  # Manda a linha do doc para a variável etapa
+
+
+time.sleep(0.2)
+
+
+pyautogui.click(x=940, y=570, clicks=3)
+
+copy()
+classeSub = pyperclip.paste()  # Manda a linha do doc para a variável classeSub
+
+
+time.sleep(0.2)
+
+
+pyautogui.click(x=1070, y=570, clicks=3)
+
+copy()
+sequencial = pyperclip.paste()  # Manda a linha do doc para a variável sequencial
+
+time.sleep(0.2)
+
+
+pyautogui.click(x=1300, y=530, clicks=3)
+
+copy()
+area = pyperclip.paste()  # Manda a linha do doc para a variável area
+
+time.sleep(0.2)
+
+
+pyautogui.click(x=1470, y=530, clicks=3)
+
+copy()
+nContrato = pyperclip.paste()  # Manda a linha do doc para a variável nContrato
+
+
+
+
+
+
+
 pyautogui.hotkey('alt', 'tab', interval=0.1)  # Volta para o Sesuite
 
 
 pyautogui.click(x=1050, y=520, clicks=3)
 
-paste(trechoSubtrecho)
+paste(trechoSubtrecho) #Cola o trecho / subtrecho
 
 time.sleep(0.2)
 pyautogui.press("enter")
+
+time.sleep(0.2)
+
+
+pyautogui.hotkey('alt')
+
+time.sleep(0.2)
+
+
+paste(etapa) #Cola a etapa
+
+time.sleep(0.2)
+pyautogui.press("enter")
+
+
+
+pyautogui.hotkey('alt')
+
+time.sleep(0.2)
+
+
+paste(classeSub) #Cola a classe / subclasse 
+
+time.sleep(0.2)
+pyautogui.press("enter")
+
+
