@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["crtl", "entrar", "pyautogui", "pyperclip", "sistSub"],
+  "cSpell.words": [
+    "crtl",
+    "entrar",
+    "expressao",
+    "pyautogui",
+    "pyperclip",
+    "sistSub"
+  ],
   "[python]": {
     "editor.defaultFormatter": "ms-python.autopep8"
   },

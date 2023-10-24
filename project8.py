@@ -6,50 +6,34 @@ import PyPDF2
 import re
 
 # Função para colar cada informação de atributo
-
 def atributo(tipo):
     paste(tipo)
     time.sleep(0.1)
     pyautogui.press("enter")
 
-
-
 # Função tab genérica
-
-
 def tab():
     time.sleep(0.1)
     pyautogui.press("tab")
     time.sleep(0.1)
 
-
 # Função do tab + atributos
-
 def colarInformação(tipo):
     if tipo is not None:
         atributo(tipo)
         tab()
 
-
-
-
 # Função para copiar
-
-
 def copy():
     pyautogui.hotkey('ctrl', 'c')
-    time.sleep(0.1)  # Aguarde um curto período para a cópia ser concluída
+    time.sleep(0.1)
 
 # Função para colar
-
-
 def paste(text):
     pyperclip.copy(text)
     pyautogui.hotkey('ctrl', 'v')
 
 # Função para extrair informações de um PDF
-
-
 def extrair_informacoes(pdf_filename):
     pdf_file = open(pdf_filename, 'rb')
     pdf_reader = PyPDF2.PdfReader(pdf_file)
@@ -117,7 +101,6 @@ def extrair_informacoes(pdf_filename):
 
     return titulo, tipo, sistema, linha, projetista, trecho, subtrecho, subsistema_conjunto, area, contrato, etapa, classe_subclasse, sequencial, controle, verificacao_data, identificacao, revisao
 
-
 # Caminho fixo da pasta onde os arquivos PDF estão localizados
 diretorio_pdfs = "C:\\Users\\garot\\Desktop\\Teste final - Copia"
 
@@ -125,21 +108,17 @@ diretorio_pdfs = "C:\\Users\\garot\\Desktop\\Teste final - Copia"
 arquivos = os.listdir(diretorio_pdfs)
 
 # Filtra apenas os arquivos PDF
-arquivos_pdf = [
-    arquivo for arquivo in arquivos if arquivo.lower().endswith(".pdf")]
+arquivos_pdf = [arquivo for arquivo in arquivos if arquivo.lower().endswith(".pdf")]
 
 # Solicita ao usuário quantos documentos serão cadastrados
 nDocuments = int(pyautogui.prompt(text='Digite quantos documentos serão cadastrados',
-                 title='Cadastro Automático de documentos', default=''))
+             title='Cadastro Automático de documentos', default=''))
 
 pyautogui.PAUSE = 0.5
 time.sleep(1.0)
 
-i = 0
-
-for arquivo_pdf in arquivos_pdf[:nDocuments]:
-    i = i + 1
-
+# Primeiro Loop: Extrai informações dos documentos PDF
+for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
     # Constrói o caminho completo do arquivo PDF
     pdf_filename = os.path.join(diretorio_pdfs, arquivo_pdf)
 
@@ -155,11 +134,13 @@ for arquivo_pdf in arquivos_pdf[:nDocuments]:
     if sistema:
         print("SISTEMA:", sistema)
     if linha == "7" or linha == "07":
-       linha = "07 - Rubi - Luz - Jundiaí"
+        linha = "07 - Rubi - Luz - Jundiaí"
+    if linha == "10":
+        linha = "10 - Turquesa -"
     if linha == "11":
-       linha = "11 - Coral - Barra Funda - Estudantes"
+        linha = "11 - Coral - Barra Funda - Estudantes"
     if linha == "12":
-       linha = "12 - Safira - Brás - Suzano"
+        linha = "12 - Safira - Brás - Suzano"
 
     if linha:
         print("LINHA:", linha)
@@ -193,48 +174,54 @@ for arquivo_pdf in arquivos_pdf[:nDocuments]:
         print("REVISÃO:", revisao)
     print()
 
+    # Inclua aqui o código para realizar as ações desejadas com as informações extraídas do PDF.
 
-# Mudar de aba, colar o nome do n°de controle e pesquisar
+# Mudar de aba, colar o nome do n° de controle e pesquisar
 pyautogui.hotkey('alt', 'tab')
 time.sleep(1.5)
 
-for arquivo_pdf in arquivos_pdf[:nDocuments]:
+# Segundo Loop: Pesquisa e preenche informações em outro aplicativo
+for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
+    # Inclua aqui o código para realizar a pesquisa com as informações desejadas.
 
+    pdf_filename = os.path.join(diretorio_pdfs, arquivo_pdf)
+    titulo, tipo, sistema, linha, projetista, trecho, subtrecho, subsistema_conjunto, area, contrato, etapa, classe_subclasse, sequencial, controle, verificacao_data, identificacao, revisao = extrair_informacoes(
+        pdf_filename)
+
+    controle = controle if controle else str(i)  # Atualize o controle
 
     paste(controle)
 
     time.sleep(0.2)
-    pyautogui.press("enter")  # Pesquisa o doc
+    pyautogui.press("enter")  # Pesquisa o documento
     time.sleep(7.50)  # Espera carregar
-    pyautogui.press('tab', presses=29, interval=0.01)  # Clica no doc
+    pyautogui.press('tab', presses=29, interval=0.01)  # Clica no documento
     time.sleep(0.1)
-    pyautogui.press("enter")  # Clica no doc
+    pyautogui.press("enter")  # Clica no documento
 
-    time.sleep(13.00)  # Espera carregar
+    time.sleep(15.00)  # Espera carregar
     pyautogui.press('tab', presses=2, interval=0.01)
-
 
     time.sleep(0.2)
 
-    paste(titulo)  # Cola o Titulo
+    paste(titulo)  # Cola o Título
 
     pyautogui.press('tab', presses=23, interval=0.01)  # Clica na aba Atributos
     time.sleep(0.1)
     pyautogui.press("enter")  # Clica na aba Atributos
     time.sleep(0.3)
-    pyautogui.press('tab', presses=2, interval=0.01) # Chega na guia Sistema/Subsistema
+    pyautogui.press('tab', presses=2, interval=0.01)  # Chega na guia Sistema/Subsistema
 
-    sistemaSubsistema = sistema + subsistema_conjunto #Concatena Sistema/Subsistema
+    sistemaSubsistema = sistema + subsistema_conjunto  # Concatena Sistema/Subsistema
 
-    # Cola o sistema/Subsistema
+    # Cola o Sistema/Subsistema
     colarInformação(sistemaSubsistema)
 
     colarInformação(linha)
 
-    linha = linha[:2] if linha else None # volta para apenas os 2 primeiros dígitos da linha
+    linha = linha[:2] if linha else None  # Volta para apenas os 2 primeiros dígitos da linha
 
-
-    #Concatena o trecho/subtrecho
+    # Concatena o Trecho/Subtrecho
     trechoSubtrecho = trecho + subtrecho
 
     colarInformação(trechoSubtrecho)
@@ -243,15 +230,13 @@ for arquivo_pdf in arquivos_pdf[:nDocuments]:
 
     colarInformação(classe_subclasse)
 
-    classificação = tipo + sistema + linha + trechoSubtrecho + subsistema_conjunto + etapa + classe_subclasse + sequencial # Concatena tudo para a identificação
+    classificação = tipo + sistema + linha + trechoSubtrecho + subsistema_conjunto + etapa + classe_subclasse + sequencial  # Concatena tudo para a identificação
 
     colarInformação(classificação)
 
     # Projeto (Por padrão "não identificado")
-
-    pyautogui.write('Não identificado')
-    pyautogui.press("enter")
-    tab()
+    naoIdentificado = ('Não identificado')
+    colarInformação(naoIdentificado)
 
     colarInformação(projetista)
 
@@ -261,12 +246,12 @@ for arquivo_pdf in arquivos_pdf[:nDocuments]:
 
     pyautogui.write("CPTM- CIA PTA TRENS METROP.")  # Coloca a empresa de origem
 
-    #Fim da guia atributos
+    # Fim da guia Atributos
 
-    pyautogui.alert(
-        "ISSO É PARA OS TESTES!!!!!!! Confira se todas as informações dos atributos estão corretas")
+    pyautogui.alert("ISSO É PARA OS TESTES!!!!!!! Confira se todas as informações dos atributos estão corretas")
 
     time.sleep(1.2)
 
-    
     pyautogui.hotkey('alt', 'f4', interval=0.1)  # Volta para o Sesuite
+    pyautogui.hotkey('f5')  # Reinicia o Sesuite
+    time.sleep(5.5)
