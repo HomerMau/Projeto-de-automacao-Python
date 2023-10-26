@@ -6,6 +6,10 @@ import PyPDF2
 import re
 
 # Função para definir a Aba Linha
+
+
+
+# Função para definir a Aba Linha
 def qualLinha(linha, linha_substituta):
     # Verificando se a linha_substituta está vazia
     if len(linha_substituta) == 0:
@@ -14,6 +18,8 @@ def qualLinha(linha, linha_substituta):
     else:
         # Se não estiver vazia, imprime a linha_substituta
         return(linha_substituta)
+
+
 
 # Função para colar cada informação de atributo
 def atributo(tipo):
@@ -57,7 +63,7 @@ def extrair_informacoes(pdf_filename):
     expressao_projetista = r'PROJETISTA\s+(.*?)\s+'
     expressao_trecho = r'TRECHO\s+(.*?)\s+'
     expressao_subtrecho = r'SUBTRECHO\s+(.*?)\s+'
-    expressao_subsistema_conjunto = r'SUBSISTEMA/CONJUNTO\s+(.*?)\s+'
+    expressao_subsistema_conjunto = r'SUBSISTEMA/CONJUNTO\s+([\d\s]+)\s+'
     expressao_area = r'ÁREA\s+(.*?)\s+'
     expressao_contrato = r'Nº CONTRATO\s+(.*?)\s+'
     expressao_etapa = r'ETAPA\s+(.*?)\s+'
@@ -75,8 +81,7 @@ def extrair_informacoes(pdf_filename):
     projetista_match = re.search(expressao_projetista, page_text)
     trecho_match = re.search(expressao_trecho, page_text)
     subtrecho_match = re.search(expressao_subtrecho, page_text)
-    subsistema_conjunto_match = re.search(
-        expressao_subsistema_conjunto, page_text)
+    subsistema_conjunto_match = re.search(expressao_subsistema_conjunto, page_text)
     area_match = re.search(expressao_area, page_text)
     contrato_match = re.search(expressao_contrato, page_text)
     etapa_match = re.search(expressao_etapa, page_text)
@@ -94,20 +99,21 @@ def extrair_informacoes(pdf_filename):
     projetista = projetista_match.group(1) if projetista_match else None
     trecho = trecho_match.group(1) if trecho_match else None
     subtrecho = subtrecho_match.group(1) if subtrecho_match else None
-    subsistema_conjunto = subsistema_conjunto_match.group(
-        1) if subsistema_conjunto_match else None
+    subsistema_conjunto_match = re.search(expressao_subsistema_conjunto, page_text)
+    subsistema_conjunto = None
+    if subsistema_conjunto_match:
+        subsistema_conjunto = re.sub(r'\s+', '', subsistema_conjunto_match.group(1))
     area = area_match.group(1) if area_match else None
     contrato = contrato_match.group(1) if contrato_match else None
     etapa = etapa_match.group(1) if etapa_match else None
-    classe_subclasse = classe_subclasse_match.group(
-        1) if classe_subclasse_match else None
+    classe_subclasse = classe_subclasse_match.group(1) if classe_subclasse_match else None
     sequencial = sequencial_match.group(1) if sequencial_match else None
     controle = controle_match.group(1) if controle_match else None
-    verificacao_data = verificacao_data_match.group(
-        1) if verificacao_data_match else None
-    identificacao = identificacao_match.group(
-        1) if identificacao_match else None
+    verificacao_data = verificacao_data_match.group(1) if verificacao_data_match else None
+    identificacao = identificacao_match.group(1) if identificacao_match else None
     revisao = revisao_match.group(1) if revisao_match else None
+
+
 
     return titulo, tipo, sistema, linha, projetista, trecho, subtrecho, subsistema_conjunto, area, contrato, etapa, classe_subclasse, sequencial, controle, verificacao_data, identificacao, revisao
 
@@ -146,14 +152,16 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
         print("TIPO:", tipo)
     if sistema:
         print("SISTEMA:", sistema)
+
     if linha == "7" or linha == "07":
         linha_substituta = "07 - Rubi - Luz - Jundiaí"
     if linha == "10":
-        linha = "10 - Turquesa -"
+        linha_substituta = "10 - Turquesa -"
     if linha == "11":
         linha_substituta = "11 - Coral - Barra Funda - Estudantes"
     if linha == "12":
         linha_substituta = "12 - Safira - Brás - Suzano"
+
 
     if linha:
         print("LINHA:", linha)
@@ -272,15 +280,18 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
 
     colarInformação(classe_subclasse)
 
-    classificação = tipo + sistema + linha + trechoSubtrecho + (subsistema_conjunto if subsistema_conjunto else "") + etapa + classe_subclasse + sequencial  # Concatena tudo para a identificação
+    classificacao = tipo + sistema + linha + trechoSubtrecho + (subsistema_conjunto if subsistema_conjunto else "") + etapa + classe_subclasse + sequencial  # Concatena tudo para a identificação
 
-    colarInformação(classificação)
+    colarInformação(classificacao)
 
     # Projeto (Por padrão "não identificado")
     naoIdentificado = ('Não identificado')
     colarInformação(naoIdentificado)
 
     colarInformação(projetista)
+
+    tab() # Por enquanto serve para pular a aba projetista... MUDAR QUANDO DER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
     colarInformação(contrato)
 
@@ -289,6 +300,10 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
     pyautogui.write("CPTM- CIA PTA TRENS METROP.")  # Coloca a empresa de origem
 
     # Fim da guia Atributos
+
+
+    pyautogui.alert(
+        "ISSO É PARA OS TESTES!!!!!!! Confira se todas as informações dos atributos estão corretas")
 
     time.sleep(1.2)
 

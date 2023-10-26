@@ -5,6 +5,19 @@ import os
 import PyPDF2
 import re
 
+
+
+# Função Adicione zeros à esquerda, se necessário
+
+def zeroAEsquerda():
+    if trecho and len(trecho) == 1:
+        trecho = "0" + trecho
+        return trecho
+    if subtrecho and len(subtrecho) == 1:
+        subtrecho = "0" + subtrecho
+        return subtrecho
+
+
 # Função para definir a Aba Linha
 def qualLinha(linha, linha_substituta):
     # Verificando se a linha_substituta está vazia
@@ -15,6 +28,8 @@ def qualLinha(linha, linha_substituta):
         # Se não estiver vazia, imprime a linha_substituta
         return(linha_substituta)
 
+
+
 # Função para colar cada informação de atributo
 def atributo(tipo):
     paste(tipo)
@@ -23,9 +38,9 @@ def atributo(tipo):
 
 # Função tab genérica
 def tab():
-    time.sleep(0.1)
+    time.sleep(0.11)
     pyautogui.press("tab")
-    time.sleep(0.1)
+    time.sleep(0.11)
 
 # Função do tab + atributos
 def colarInformação(tipo):
@@ -57,7 +72,7 @@ def extrair_informacoes(pdf_filename):
     expressao_projetista = r'PROJETISTA\s+(.*?)\s+'
     expressao_trecho = r'TRECHO\s+(.*?)\s+'
     expressao_subtrecho = r'SUBTRECHO\s+(.*?)\s+'
-    expressao_subsistema_conjunto = r'SUBSISTEMA/CONJUNTO\s+(.*?)\s+'
+    expressao_subsistema_conjunto = r'SUBSISTEMA/CONJUNTO\s+([\d\s]+)\s+'
     expressao_area = r'ÁREA\s+(.*?)\s+'
     expressao_contrato = r'Nº CONTRATO\s+(.*?)\s+'
     expressao_etapa = r'ETAPA\s+(.*?)\s+'
@@ -75,8 +90,7 @@ def extrair_informacoes(pdf_filename):
     projetista_match = re.search(expressao_projetista, page_text)
     trecho_match = re.search(expressao_trecho, page_text)
     subtrecho_match = re.search(expressao_subtrecho, page_text)
-    subsistema_conjunto_match = re.search(
-        expressao_subsistema_conjunto, page_text)
+    subsistema_conjunto_match = re.search(expressao_subsistema_conjunto, page_text)
     area_match = re.search(expressao_area, page_text)
     contrato_match = re.search(expressao_contrato, page_text)
     etapa_match = re.search(expressao_etapa, page_text)
@@ -94,20 +108,21 @@ def extrair_informacoes(pdf_filename):
     projetista = projetista_match.group(1) if projetista_match else None
     trecho = trecho_match.group(1) if trecho_match else None
     subtrecho = subtrecho_match.group(1) if subtrecho_match else None
-    subsistema_conjunto = subsistema_conjunto_match.group(
-        1) if subsistema_conjunto_match else None
+    subsistema_conjunto_match = re.search(expressao_subsistema_conjunto, page_text)
+    subsistema_conjunto = None
+    if subsistema_conjunto_match:
+        subsistema_conjunto = re.sub(r'\s+', '', subsistema_conjunto_match.group(1))
     area = area_match.group(1) if area_match else None
     contrato = contrato_match.group(1) if contrato_match else None
     etapa = etapa_match.group(1) if etapa_match else None
-    classe_subclasse = classe_subclasse_match.group(
-        1) if classe_subclasse_match else None
+    classe_subclasse = classe_subclasse_match.group(1) if classe_subclasse_match else None
     sequencial = sequencial_match.group(1) if sequencial_match else None
     controle = controle_match.group(1) if controle_match else None
-    verificacao_data = verificacao_data_match.group(
-        1) if verificacao_data_match else None
-    identificacao = identificacao_match.group(
-        1) if identificacao_match else None
+    verificacao_data = verificacao_data_match.group(1) if verificacao_data_match else None
+    identificacao = identificacao_match.group(1) if identificacao_match else None
     revisao = revisao_match.group(1) if revisao_match else None
+
+
 
     return titulo, tipo, sistema, linha, projetista, trecho, subtrecho, subsistema_conjunto, area, contrato, etapa, classe_subclasse, sequencial, controle, verificacao_data, identificacao, revisao
 
@@ -124,7 +139,7 @@ arquivos_pdf = [arquivo for arquivo in arquivos if arquivo.lower().endswith(".pd
 nDocuments = int(pyautogui.prompt(text='Digite quantos documentos serão cadastrados',
              title='Cadastro Automático de documentos', default=''))
 
-pyautogui.PAUSE = 0.5
+pyautogui.PAUSE = 1.0
 time.sleep(1.0)
 
 # Lista para manter o registro dos documentos não cadastrados
@@ -146,14 +161,16 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
         print("TIPO:", tipo)
     if sistema:
         print("SISTEMA:", sistema)
+
     if linha == "7" or linha == "07":
         linha_substituta = "07 - Rubi - Luz - Jundiaí"
     if linha == "10":
-        linha = "10 - Turquesa -"
+        linha_substituta = "10 - Turquesa -"
     if linha == "11":
         linha_substituta = "11 - Coral - Barra Funda - Estudantes"
     if linha == "12":
         linha_substituta = "12 - Safira - Brás - Suzano"
+
 
     if linha:
         print("LINHA:", linha)
@@ -199,12 +216,20 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
         documentos_nao_cadastrados.append((titulo, revisao))
 
     # Inclua aqui o código para realizar as ações desejadas com as informações extraídas do PDF.
+    # Concatena o Trecho/Subtrecho
+    trechoSubtrecho = trecho + (subtrecho if subtrecho else "")
 
+classificacao = tipo + sistema + linha + trechoSubtrecho + (subsistema_conjunto if subsistema_conjunto else "") + etapa + classe_subclasse + sequencial  # Concatena tudo para a identificação
+
+if len(classificacao) != 20:
+     documentos_nao_cadastrados.append((titulo, revisao))  # Adicione à lista de documentos não cadastrados
+      # Pule o restante do loop para este documento
 
 # Imprime os documentos não cadastrados
 print("\nDocumentos não cadastrados:")
 for titulo, revisao in documentos_nao_cadastrados:
     print(f"\nTítulo: {titulo}, Revisão: {revisao}\n")
+
 
 # Imprime o número total de documentos não cadastrados
 print(f"Total de documentos não cadastrados: {len(documentos_nao_cadastrados)}")
@@ -256,14 +281,7 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
 
     linha = linha[:2] if linha else None  # Volta para apenas os 2 primeiros dígitos da linha
 
-     # Adicione zeros à esquerda, se necessário
-    if trecho and len(trecho) == 1:
-        trecho = "0" + trecho
-    if subtrecho and len(subtrecho) == 1:
-        subtrecho = "0" + subtrecho
 
-    # Concatena o Trecho/Subtrecho
-    trechoSubtrecho = trecho + (subtrecho if subtrecho else "")
 
 
     colarInformação(trechoSubtrecho)
@@ -272,15 +290,24 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
 
     colarInformação(classe_subclasse)
 
-    classificação = tipo + sistema + linha + trechoSubtrecho + (subsistema_conjunto if subsistema_conjunto else "") + etapa + classe_subclasse + sequencial  # Concatena tudo para a identificação
+    classificacao = tipo + sistema + linha + trechoSubtrecho + (subsistema_conjunto if subsistema_conjunto else "") + etapa + classe_subclasse + sequencial  # Concatena tudo para a identificação
 
-    colarInformação(classificação)
+        # Verifique se a "Classificação" tem exatamente 20 caracteres
+    if len(classificacao) != 20:
+        documentos_nao_cadastrados.append((titulo, revisao))  # Adicione à lista de documentos não cadastrados
+        print(f"Documento {i} não cadastrado devido à 'Classificação' com número incorreto de caracteres.")
+        continue  # Pule o restante do loop para este documento
+
+    colarInformação(classificacao)
 
     # Projeto (Por padrão "não identificado")
     naoIdentificado = ('Não identificado')
     colarInformação(naoIdentificado)
 
     colarInformação(projetista)
+
+    tab() # Por enquanto serve para pular a aba projetista... MUDAR QUANDO DER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
     colarInformação(contrato)
 
@@ -290,13 +317,17 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
 
     # Fim da guia Atributos
 
+
+
+
     time.sleep(1.2)
 
     pyautogui.hotkey('alt', 'f4', interval=0.1)  # Volta para o Sesuite
+    time.sleep(0.5)
     pyautogui.hotkey('f5')  # Reinicia o Sesuite
-    time.sleep(5.5)
+    time.sleep(6.5)
 
-# Crie uma string que conterá todas as informações dos documentos não cadastrados
+# Exiba as informações de documentos não cadastrados em um alerta
 informacoes_documentos_nao_cadastrados = ("Documentos não cadastrados:\n")
 
 for titulo, revisao in documentos_nao_cadastrados:
