@@ -1,10 +1,12 @@
 {
   "cSpell.words": [
+    "classificacao",
     "crtl",
     "entrar",
     "expressao",
     "pyautogui",
     "pyperclip",
+    "pytesseract",
     "sistSub"
   ],
   "[python]": {

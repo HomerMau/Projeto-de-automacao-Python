@@ -1,0 +1,29 @@
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BE5208-0.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BF6915-7.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BF7021-0.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BF7492-4.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BG8940-3.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BG8941-1.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BG9360-5.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BH9559-9.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BH9560-2.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BH9561-0.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BH9565-3.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BH9567-0.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BH9582-3.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+ERROR:root:Error while processing C:\Users\garot\Desktop\Teste final - Copia\BH9583-1.pdf: PdfFileReader is deprecated and was removed in PyPDF2 3.0.0. Use PdfReader instead.
+INFO:root:Uncategorized documents:
+INFO:root:Document not categorized: BE5208-0.pdf
+INFO:root:Document not categorized: BF6915-7.pdf
+INFO:root:Document not categorized: BF7021-0.pdf
+INFO:root:Document not categorized: BF7492-4.pdf
+INFO:root:Document not categorized: BG8940-3.pdf
+INFO:root:Document not categorized: BG8941-1.pdf
+INFO:root:Document not categorized: BG9360-5.pdf
+INFO:root:Document not categorized: BH9559-9.pdf
+INFO:root:Document not categorized: BH9560-2.pdf
+INFO:root:Document not categorized: BH9561-0.pdf
+INFO:root:Document not categorized: BH9565-3.pdf
+INFO:root:Document not categorized: BH9567-0.pdf
+INFO:root:Document not categorized: BH9582-3.pdf
+INFO:root:Document not categorized: BH9583-1.pdf

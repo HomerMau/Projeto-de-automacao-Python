@@ -6,7 +6,6 @@ import PyPDF2
 import re
 
 
-
 # Função Adicione zeros à esquerda, se necessário
 
 def zeroAEsquerda():
@@ -18,18 +17,6 @@ def zeroAEsquerda():
         return subtrecho
 
 
-# Função para definir a Aba Linha
-def qualLinha(linha, linha_substituta):
-    # Verificando se a linha_substituta está vazia
-    if len(linha_substituta) == 0:
-        # Se estiver vazia, imprime a linha
-        return(linha)
-    else:
-        # Se não estiver vazia, imprime a linha_substituta
-        return(linha_substituta)
-
-
-
 # Função para colar cada informação de atributo
 def atributo(tipo):
     paste(tipo)
@@ -37,28 +24,38 @@ def atributo(tipo):
     pyautogui.press("enter")
 
 # Função tab genérica
+
+
 def tab():
     time.sleep(0.11)
     pyautogui.press("tab")
     time.sleep(0.11)
 
 # Função do tab + atributos
+
+
 def colarInformação(tipo):
     if tipo is not None:
         atributo(tipo)
         tab()
 
 # Função para copiar
+
+
 def copy():
     pyautogui.hotkey('ctrl', 'c')
     time.sleep(0.1)
 
 # Função para colar
+
+
 def paste(text):
     pyperclip.copy(text)
     pyautogui.hotkey('ctrl', 'v')
 
 # Função para extrair informações de um PDF
+
+
 def extrair_informacoes(pdf_filename):
     pdf_file = open(pdf_filename, 'rb')
     pdf_reader = PyPDF2.PdfReader(pdf_file)
@@ -90,7 +87,8 @@ def extrair_informacoes(pdf_filename):
     projetista_match = re.search(expressao_projetista, page_text)
     trecho_match = re.search(expressao_trecho, page_text)
     subtrecho_match = re.search(expressao_subtrecho, page_text)
-    subsistema_conjunto_match = re.search(expressao_subsistema_conjunto, page_text)
+    subsistema_conjunto_match = re.search(
+        expressao_subsistema_conjunto, page_text)
     area_match = re.search(expressao_area, page_text)
     contrato_match = re.search(expressao_contrato, page_text)
     etapa_match = re.search(expressao_etapa, page_text)
@@ -108,23 +106,27 @@ def extrair_informacoes(pdf_filename):
     projetista = projetista_match.group(1) if projetista_match else None
     trecho = trecho_match.group(1) if trecho_match else None
     subtrecho = subtrecho_match.group(1) if subtrecho_match else None
-    subsistema_conjunto_match = re.search(expressao_subsistema_conjunto, page_text)
+    subsistema_conjunto_match = re.search(
+        expressao_subsistema_conjunto, page_text)
     subsistema_conjunto = None
     if subsistema_conjunto_match:
-        subsistema_conjunto = re.sub(r'\s+', '', subsistema_conjunto_match.group(1))
+        subsistema_conjunto = re.sub(
+            r'\s+', '', subsistema_conjunto_match.group(1))
     area = area_match.group(1) if area_match else None
     contrato = contrato_match.group(1) if contrato_match else None
     etapa = etapa_match.group(1) if etapa_match else None
-    classe_subclasse = classe_subclasse_match.group(1) if classe_subclasse_match else None
+    classe_subclasse = classe_subclasse_match.group(
+        1) if classe_subclasse_match else None
     sequencial = sequencial_match.group(1) if sequencial_match else None
     controle = controle_match.group(1) if controle_match else None
-    verificacao_data = verificacao_data_match.group(1) if verificacao_data_match else None
-    identificacao = identificacao_match.group(1) if identificacao_match else None
+    verificacao_data = verificacao_data_match.group(
+        1) if verificacao_data_match else None
+    identificacao = identificacao_match.group(
+        1) if identificacao_match else None
     revisao = revisao_match.group(1) if revisao_match else None
 
-
-
     return titulo, tipo, sistema, linha, projetista, trecho, subtrecho, subsistema_conjunto, area, contrato, etapa, classe_subclasse, sequencial, controle, verificacao_data, identificacao, revisao
+
 
 # Caminho fixo da pasta onde os arquivos PDF estão localizados
 diretorio_pdfs = "C:\\Users\\garot\\Desktop\\Teste final - Copia"
@@ -133,11 +135,12 @@ diretorio_pdfs = "C:\\Users\\garot\\Desktop\\Teste final - Copia"
 arquivos = os.listdir(diretorio_pdfs)
 
 # Filtra apenas os arquivos PDF
-arquivos_pdf = [arquivo for arquivo in arquivos if arquivo.lower().endswith(".pdf")]
+arquivos_pdf = [
+    arquivo for arquivo in arquivos if arquivo.lower().endswith(".pdf")]
 
 # Solicita ao usuário quantos documentos serão cadastrados
 nDocuments = int(pyautogui.prompt(text='Digite quantos documentos serão cadastrados',
-             title='Cadastro Automático de documentos', default=''))
+                                  title='Cadastro Automático de documentos', default=''))
 
 pyautogui.PAUSE = 1.0
 time.sleep(1.0)
@@ -161,17 +164,6 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
         print("TIPO:", tipo)
     if sistema:
         print("SISTEMA:", sistema)
-
-    if linha == "7" or linha == "07":
-        linha_substituta = "07 - Rubi - Luz - Jundiaí"
-    if linha == "10":
-        linha_substituta = "10 - Turquesa -"
-    if linha == "11":
-        linha_substituta = "11 - Coral - Barra Funda - Estudantes"
-    if linha == "12":
-        linha_substituta = "12 - Safira - Brás - Suzano"
-
-
     if linha:
         print("LINHA:", linha)
     if projetista:
@@ -185,7 +177,8 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
             subtrecho = "0" + subtrecho
         print("SUBTRECHO:", subtrecho)
     if subsistema_conjunto:
-        subsistema_conjunto = re.sub(r'(\d+)\s+(\d+)', r'\1\2', subsistema_conjunto)
+        subsistema_conjunto = re.sub(
+            r'(\d+)\s+(\d+)', r'\1\2', subsistema_conjunto)
         if len(subsistema_conjunto) < 4:
             subsistema_conjunto = "0" + subsistema_conjunto
         print("SUBSISTEMA/CONJUNTO:", subsistema_conjunto)
@@ -219,11 +212,14 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
     # Concatena o Trecho/Subtrecho
     trechoSubtrecho = trecho + (subtrecho if subtrecho else "")
 
-classificacao = tipo + sistema + linha + trechoSubtrecho + (subsistema_conjunto if subsistema_conjunto else "") + etapa + classe_subclasse + sequencial  # Concatena tudo para a identificação
+    classificacao = tipo + sistema + linha + trechoSubtrecho + \
+        (subsistema_conjunto if subsistema_conjunto else "") + etapa + \
+        classe_subclasse + sequencial  # Concatena tudo para a identificação
 
-if len(classificacao) != 20:
-     documentos_nao_cadastrados.append((titulo, revisao))  # Adicione à lista de documentos não cadastrados
-      # Pule o restante do loop para este documento
+    # Verifique se a "Classificação" tem exatamente 20 caracteres
+    if len(classificacao) != 20:
+        # Adicione à lista de documentos não cadastrados
+        documentos_nao_cadastrados.append((titulo, revisao))
 
 # Imprime os documentos não cadastrados
 print("\nDocumentos não cadastrados:")
@@ -232,8 +228,11 @@ for titulo, revisao in documentos_nao_cadastrados:
 
 
 # Imprime o número total de documentos não cadastrados
-print(f"Total de documentos não cadastrados: {len(documentos_nao_cadastrados)}")
+print(f"Total de documentos não cadastrados: {
+      len(documentos_nao_cadastrados)}")
 
+print(f"Documento {
+      i} não cadastrado devido à 'Classificação' com número incorreto de caracteres.")
 
 # Mudar de aba, colar o nome do n° de controle e pesquisar
 pyautogui.hotkey('alt', 'tab')
@@ -255,12 +254,12 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
 
     time.sleep(0.2)
     pyautogui.press("enter")  # Pesquisa o documento
-    time.sleep(7.50)  # Espera carregar
+    time.sleep(8.50)  # Espera carregar
     pyautogui.press('tab', presses=29, interval=0.01)  # Clica no documento
     time.sleep(0.1)
     pyautogui.press("enter")  # Clica no documento
 
-    time.sleep(15.00)  # Espera carregar
+    time.sleep(16.00)  # Espera carregar
     pyautogui.press('tab', presses=2, interval=0.01)
 
     time.sleep(0.2)
@@ -271,18 +270,19 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
     time.sleep(0.1)
     pyautogui.press("enter")  # Clica na aba Atributos
     time.sleep(0.3)
-    pyautogui.press('tab', presses=2, interval=0.01)  # Chega na guia Sistema/Subsistema
+    # Chega na guia Sistema/Subsistema
+    pyautogui.press('tab', presses=2, interval=0.01)
 
-    sistemaSubsistema = sistema + (subsistema_conjunto if subsistema_conjunto else "")  # Concatena Sistema/Subsistema
+    # Concatena Sistema/Subsistema
+    sistemaSubsistema = sistema + \
+        (subsistema_conjunto if subsistema_conjunto else "")
 
     colarInformação(sistemaSubsistema)
 
-    colarInformação(qualLinha(linha, linha_substituta))
+    colarInformação(linha)
 
-    linha = linha[:2] if linha else None  # Volta para apenas os 2 primeiros dígitos da linha
-
-
-
+    # Volta para apenas os 2 primeiros dígitos da linha
+    linha = linha[:2] if linha else None
 
     colarInformação(trechoSubtrecho)
 
@@ -290,12 +290,8 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
 
     colarInformação(classe_subclasse)
 
-    classificacao = tipo + sistema + linha + trechoSubtrecho + (subsistema_conjunto if subsistema_conjunto else "") + etapa + classe_subclasse + sequencial  # Concatena tudo para a identificação
-
-        # Verifique se a "Classificação" tem exatamente 20 caracteres
+    # Verifique se a "Classificação" tem exatamente 20 caracteres
     if len(classificacao) != 20:
-        documentos_nao_cadastrados.append((titulo, revisao))  # Adicione à lista de documentos não cadastrados
-        print(f"Documento {i} não cadastrado devido à 'Classificação' com número incorreto de caracteres.")
         continue  # Pule o restante do loop para este documento
 
     colarInformação(classificacao)
@@ -306,35 +302,37 @@ for i, arquivo_pdf in enumerate(arquivos_pdf[:nDocuments], start=1):
 
     colarInformação(projetista)
 
-    tab() # Por enquanto serve para pular a aba projetista... MUDAR QUANDO DER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+    tab()  # Por enquanto serve para pular a aba projetista... MUDAR QUANDO DER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     colarInformação(contrato)
 
     tab()
 
-    pyautogui.write("CPTM- CIA PTA TRENS METROP.")  # Coloca a empresa de origem
+    # Coloca a empresa de origem
+    pyautogui.write("CPTM- CIA PTA TRENS METROP.")
 
     # Fim da guia Atributos
 
-
-
+    pyautogui.alert(
+        "ISSO É PARA OS TESTES!!!!!!! Confira se todas as informações dos atributos estão corretas")
 
     time.sleep(1.2)
 
     pyautogui.hotkey('alt', 'f4', interval=0.1)  # Volta para o Sesuite
     time.sleep(0.5)
     pyautogui.hotkey('f5')  # Reinicia o Sesuite
-    time.sleep(6.5)
+    time.sleep(5.5)
 
 # Exiba as informações de documentos não cadastrados em um alerta
 informacoes_documentos_nao_cadastrados = ("Documentos não cadastrados:\n")
 
 for titulo, revisao in documentos_nao_cadastrados:
-    informacoes_documentos_nao_cadastrados += (f"\nTítulo: {titulo}, Revisão: {revisao}\n")
+    informacoes_documentos_nao_cadastrados += (
+        f"\nTítulo: {titulo}, Revisão: {revisao}\n")
 
 # Adicione o número total de documentos não cadastrados
-informacoes_documentos_nao_cadastrados += (f"Total de documentos não cadastrados: {len(documentos_nao_cadastrados)}")
+informacoes_documentos_nao_cadastrados += (
+    f"Total de documentos não cadastrados: {len(documentos_nao_cadastrados)}")
 
 # Exiba todas as informações em um único alerta
 pyautogui.alert(informacoes_documentos_nao_cadastrados)
