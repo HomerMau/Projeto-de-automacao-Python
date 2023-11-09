@@ -18,7 +18,7 @@ for planilha, df in dfs.items():
                    "REV.": row["REV."],
                    "AREA": row["AREA"],
                    "TIPO": row["TIPO"],
-                   ".SIST.": row[".SIST."],
+                   "SISTEMA": row[".SIST."],
                    "LINHA": row["LINHA"],
                    "PACOTE": row["PACOTE"],
                    "OBSERVAÇÕES GERAIS": row["OBSERVAÇÕES GERAIS"],
@@ -38,5 +38,5 @@ for planilha, df in dfs.items():
         # Imprimir o valor das variáveis nControle1 e nControle2
         print(f"nControle1 = {nControle1}")
         if nControle2 !="":
-            print(f"nControle2 = {nControle2}")
+            print(f"FOLHAS = {nControle2}")
         print("\n")
