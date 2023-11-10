@@ -4,12 +4,6 @@ import time
 import pandas as pd
 
 
-# Função para colar cada informação de atributo
-def zeroAEsquerda(linha):
-    if linha and len(linha) == 1:
-        linha = "0" + linha
-        return linha
-
 # Função tab genérica
 
 
@@ -19,13 +13,17 @@ def tab():
     time.sleep(0.1)
 
 # Função para copiar e colar
+
+
 def copy():
     pyautogui.hotkey('ctrl', 'c')
     time.sleep(0.1)
 
+
 def paste(text):
     pyperclip.copy(text)
     pyautogui.hotkey('ctrl', 'v')
+
 
 # Criar uma lista com os nomes das planilhas que você quer ler
 planilhas = ["Linha7", "Linha10", "Linha11", "Linha12", "Linha13",
@@ -34,7 +32,6 @@ planilhas = ["Linha7", "Linha10", "Linha11", "Linha12", "Linha13",
 # Ler o arquivo Excel e selecionar as planilhas desejadas, convertendo tudo em texto
 dfs = pd.read_excel("C:\\Users\\garot\\Downloads\\Documentos na fila para cadastro.xlsx",
                     sheet_name=planilhas, dtype=str)
-
 
 
 pyautogui.hotkey('alt', 'tab')
@@ -60,9 +57,10 @@ for planilha, df in dfs.items():
                    "DESCREVA A DIVERGÊNCIA": row["DESCREVA A DIVERGÊNCIA"]}
 
         # Separar a string em duas variáveis usando fatiamento
-        nControle = colunas["Nº CONTROLE"] # Usar o valor da chave "Nº CONTROLE" do dicionário
-        nControle1 = nControle[:8] # Obter os 8 primeiros caracteres
-        nControle2 = nControle[8:] # Obter o restante da string
+        # Usar o valor da chave "Nº CONTROLE" do dicionário
+        nControle = colunas["Nº CONTROLE"]
+        nControle1 = nControle[:8]  # Obter os 8 primeiros caracteres
+        nControle2 = nControle[8:]  # Obter o restante da string
 
         # Usar o valor da chave "REV." do dicionário e dos outros
         revisao = colunas.get("REV.", "NaN")
@@ -77,34 +75,51 @@ for planilha, df in dfs.items():
         recebidoEm = colunas.get("RECEBIDO EM", "NaN")
         divergencia = colunas.get("DESCREVA A DIVERGÊNCIA", "NaN")
 
-
-
-
         # Imprimir o valor de cada variável
         for var, val in colunas.items():
             print(f"{var} = {val}")
 
         # Imprimir o valor das variáveis nControle1 e nControle2
         print(f"nControle1 = {nControle1}")
-        if nControle2 !="":
+        if nControle2 != "":
             print(f"FOLHAS = {nControle2}")
         print("\n")
 
-
-
-    
-    
     # Mudar de aba, colar o nome do n° de controle e pesquisar
 
     paste(nControle1)
     pyautogui.press("enter")  # Pesquisa o documento
     time.sleep(8.50)  # Espera carregar
 
-    pyautogui.click(x=450, y=290, clicks=2)  # Clica no documento
+    pyautogui.click(x=840, y=420, clicks=2)  # Click de conferencia
+    time.sleep(0.30)
+    copy()
+    testeDeErro = pyperclip.paste()
+    print(testeDeErro)
 
+    if testeDeErro == "Não encontramos nenhum resultado para sua pesquisa." or testeDeErro == "Verifique se os filtros e os termos da pesquisa estão corretos." or testeDeErro == "Não encontramos nenhum resultado para sua pesquisa.Verifique se os filtros e os termos da pesquisa estão corretos." or testeDeErro == "Não ":
 
-    time.sleep(0.1)
-    pyautogui.press("enter")  # Clica no documento
+        time.sleep(0.5)
+        pyautogui.click(x=380, y=290, clicks=2)
+        time.sleep(0.5)
+        categoriaDoDoc = "DT_{}".format(tipo)
+        time.sleep(2.0)
+        paste(categoriaDoDoc)
+        time.sleep(0.2)
+        pyautogui.press("enter")
+        time.sleep(0.1)
+        pyautogui.click(x=550, y=610, clicks=3)
+        time.sleep(8.00)  # Espera carregar
+        paste(nControle1)
+        pyautogui.press('tab', presses=2, interval=0.01)
+        pyautogui.write("CADASTRO EM ANDAMENTO")
+        pyautogui.press('tab', presses=4, interval=0.01)  # Analisa a Revisão
+        pyautogui.hotkey('ctrl', 'a')
+        copy()
+        revisaoComparacao = pyperclip.paste()
+        print(revisaoComparacao)
+
+        pyautogui.press('tab', presses=10, interval=0.01)  # Analiza a Revisão
 
     time.sleep(20.00)  # Espera carregar
 
@@ -121,18 +136,14 @@ for planilha, df in dfs.items():
 
     pyautogui.click(x=1425, y=395, clicks=2)  # Analiza a Revisão
 
-
-
-
     pyautogui.hotkey('ctrl', 'a')
     copy()
     revisaoComparacao = pyperclip.paste()
     print(revisaoComparacao)
 
-    pyautogui.press('tab', presses=12, interval=0.01) #Vai para o resumo
+    pyautogui.click(x=1045, y=650, clicks=2)  # Vai para o resumo
 
-    
-    #Fazer novo arquivo
+    # Fazer novo arquivo
     if nControle1 != nControleComparacao:
         pyautogui.hotkey('alt', 'f4', interval=0.1)  # Volta para o Sesuite
         time.sleep(0.5)
@@ -149,32 +160,24 @@ for planilha, df in dfs.items():
         paste(nControle1)
         pyautogui.press('tab', presses=2, interval=0.01)
         pyautogui.write("CADASTRO EM ANDAMENTO")
-        pyautogui.press('tab', presses=4, interval=0.01) #Analisa a Revisão
+        pyautogui.press('tab', presses=4, interval=0.01)  # Analisa a Revisão
         pyautogui.hotkey('ctrl', 'a')
         copy()
         revisaoComparacao = pyperclip.paste()
         print(revisaoComparacao)
 
-        pyautogui.press('tab', presses=10, interval=0.01) #Analiza a Revisão
+        pyautogui.press('tab', presses=10, interval=0.01)  # Analiza a Revisão
 
+    # NO RESUMO:
+    # ARQUIVOBO  
 
-
-
-
-
-
-
-
-    #NO RESUMO:
-    # ARQUIVOBO 🤖 
-
-    resumo = "ARQUIVOBO \n\nAREA = {}\nTIPO = {}\nSISTEMA = {}\nLINHA = {}\nPACOTE = {}\nOBSERVAÇÕES GERAIS = {}\nSPSP / CI = {}\nMÍDIA = {}\nRECEBIDO EM = {}\nDESCREVA A DIVERGÊNCIA = {}".format(area, tipo, sistema, linha, pacote, observacoes, spsp, midia, recebidoEm, divergencia)
+    resumo = "ARQUIROBO \n\nAREA = {}\nREVISÃO = {}\nTIPO = {}\nSISTEMA = {}\nLINHA = {}\nPACOTE = {}\nOBSERVAÇÕES GERAIS = {}\nFOLHAS = {}\nSPSP / CI = {}\nMÍDIA = {}\nRECEBIDO EM = {}\nDESCREVA A DIVERGÊNCIA = {}".format(
+        area, revisao, tipo, sistema, linha, pacote, observacoes, nControle2, spsp, midia, recebidoEm, divergencia)
     paste(resumo)
-
 
     if titulo == "" or titulo == "CADASTRO EM ANDAMENTO":
 
-        #Vai para guia atributos
+        # Vai para guia atributos
         time.sleep(0.1)
         pyautogui.click(x=95, y=370, clicks=2)  # Clica na aba Atributos
         time.sleep(0.1)
@@ -186,7 +189,10 @@ for planilha, df in dfs.items():
         pyautogui.press("enter")
 
         tab()
-        linha = zeroAEsquerda(linha)
+        # Função para colar cada informação de atributo
+
+        if linha and len(linha) == 1:
+            linha = "0" + linha
         lin = "{}".format(linha)
         paste(linha)
         pyautogui.press("enter")
@@ -224,15 +230,9 @@ for planilha, df in dfs.items():
         paste(nContrato)
         pyautogui.press("enter")
 
-
-    time.sleep(0.1)
+    time.sleep(0.3)
    # pyautogui.click(x=130, y=160, clicks=2)
     pyautogui.hotkey('alt', 'f4', interval=0.1)
     time.sleep(1.0)
     pyautogui.hotkey('f5')
     time.sleep(4.0)
-
-
-
-
-
