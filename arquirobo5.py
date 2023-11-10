@@ -35,6 +35,11 @@ planilhas = ["Linha7", "Linha10", "Linha11", "Linha12", "Linha13",
 dfs = pd.read_excel("C:\\Users\\garot\\Downloads\\Documentos na fila para cadastro.xlsx",
                     sheet_name=planilhas, dtype=str)
 
+
+
+pyautogui.hotkey('alt', 'tab')
+time.sleep(0.2)
+
 # Imprimir o texto de cada célula no console, selecionando apenas as colunas desejadas
 for planilha, df in dfs.items():
     print(f"Planilha: {planilha}")
@@ -90,13 +95,14 @@ for planilha, df in dfs.items():
     
     
     # Mudar de aba, colar o nome do n° de controle e pesquisar
-    pyautogui.hotkey('alt', 'tab')
-    time.sleep(0.2)
 
     paste(nControle1)
     pyautogui.press("enter")  # Pesquisa o documento
     time.sleep(8.50)  # Espera carregar
-    pyautogui.press('tab', presses=29, interval=0.01)  # Clica no documento
+
+    pyautogui.click(x=450, y=290, clicks=2)  # Clica no documento
+
+
     time.sleep(0.1)
     pyautogui.press("enter")  # Clica no documento
 
