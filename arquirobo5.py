@@ -113,7 +113,7 @@ for planilha, df in dfs.items():
         paste(nControle1)
         pyautogui.press('tab', presses=2, interval=0.01)
         pyautogui.write("CADASTRO EM ANDAMENTO")
-        pyautogui.press('tab', presses=4, interval=0.01)  # Analisa a Revisão
+        pyautogui.press('tab', presses=4, interval=0.01)  # Analisa a Revisão 
         pyautogui.hotkey('ctrl', 'a')
         copy()
         revisaoComparacao = pyperclip.paste()
