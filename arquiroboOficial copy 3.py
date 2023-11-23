@@ -29,7 +29,7 @@ def paste(text):
 planilhas = ["Linha11"]
 
 # Ler o arquivo Excel e selecionar as planilhas desejadas, convertendo tudo em texto
-dfs = pd.read_excel("C:\\Users\\garot\\Downloads\\Documentos na fila para cadastro (2).xlsx",
+dfs = pd.read_excel("C:\\Users\\garot\\Downloads\\Documentos na fila para cadastro (1).xlsx",
                     sheet_name=planilhas, dtype=str)
 
 
@@ -211,6 +211,8 @@ for planilha, df in dfs.items():
         time.sleep(0.1)
 
         pyautogui.click(x=780, y=335, clicks=2)  # Analisa o titulo
+        time.sleep(0.1)
+
         pyautogui.hotkey('ctrl', 'a')
         copy()
         titulo = pyperclip.paste()
@@ -218,10 +220,7 @@ for planilha, df in dfs.items():
 
         time.sleep(0.1)
 
-        if data == "" or data == resumo or revisao != "0":
-
-            if titulo == "" or titulo == "CADASTRO EM ANDAMENTO":
-
+        if data == "" or data == resumo or revisao != "0" or titulo == "" or titulo == "CADASTRO EM ANDAMENTO":
                 # Vai para guia atributos
                 time.sleep(0.1)
                 # Clica na aba Atributos
@@ -289,9 +288,9 @@ for planilha, df in dfs.items():
                 pyautogui.click(x=40, y=175, clicks=3)
                 time.sleep(0.9)
                 pyautogui.press("enter")
-                time.sleep(16.0)
+                time.sleep(18.0)
 
-        time.sleep(0.3)
+        time.sleep(0.1)
         pyautogui.click(x=140, y=160, clicks=3)
         time.sleep(10.0)
         pyautogui.hotkey('f5')
